@@ -7,7 +7,7 @@
    a social icon with no link won't appear).
    ========================================================= */
 window.SITE_CONFIG = {
-  brand: "ADD: Academy of Academic Distinction",
+  brand: "AAD: Academy of Academic Distinction",
 
   // Contact
   phone: "(647) 821-8290",            // cell: call or text. The tap-to-call link is built from it.
@@ -24,11 +24,12 @@ window.SITE_CONFIG = {
     ["Sunday", "Sessions by appointment"]
   ],
 
-  // FORMS — GitHub Pages can't receive form submissions by itself.
-  // 1. Create a free form at https://formspree.io (or Basin / Getform).
-  // 2. Paste the endpoint URL below, e.g. "https://formspree.io/f/abcdwxyz".
-  // Until you do, forms open the visitor's email app with everything pre-filled.
-  formEndpoint: "",
+  // FORMS — where the three forms (consultation, urgent booking, contact) are sent.
+  // FormSubmit (free, no account) emails each submission to you. It needs a one-time
+  // "Activate Form" click: see EMAIL-FORMS-SETUP.md. A Formspree link
+  // ("https://formspree.io/f/abcdwxyz") also works here.
+  // Leave it "" to have forms open the visitor's email app instead.
+  formEndpoint: "https://formsubmit.co/ajax/aadteaching@gmail.com",
 
   // BOOKING — optional. Paste your Calendly (or Cal.com) link to show a live
   // calendar on the booking page, e.g. "https://calendly.com/your-name/free-consultation".

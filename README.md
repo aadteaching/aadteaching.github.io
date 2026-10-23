@@ -1,4 +1,4 @@
-# ADD: Academy of Academic Distinction — website
+# AAD: Academy of Academic Distinction — website
 
 **Math, Science & Academic/Research Coaching.** A static website (plain HTML, CSS and JavaScript) for a premium online tutoring and academic coaching business. It has no build step and no dependencies, and it is ready for GitHub Pages.
 
@@ -6,10 +6,10 @@
 
 | File | Page |
 |---|---|
-| `index.html` | Home: sliding photo hero, stats, the ADD difference, subjects, research & grad school mentorship, live classroom, founders & team, method, reviews, FAQ |
+| `index.html` | Home: sliding photo hero, stats, the AAD difference, subjects, research & grad school mentorship, live classroom, founders & team, method, reviews, FAQ |
 | `subjects.html` | Subjects & courses: math, physics, chemistry & biology, CS, university & engineering, test prep, research & graduate school |
 | `programs.html` | Six programs. No prices; every program leads to "Book Your Free Consultation" |
-| `approach.html` | Story, the 5-step method, "typical tutoring vs ADD", founders, team of 10+, careers |
+| `approach.html` | Story, the 5-step method, "typical tutoring vs AAD", founders, team of 10+, careers |
 | `results.html` | University outcomes, plus 12 reviews with filters (parents, high school, university, research) |
 | `faq.html` | Searchable FAQ |
 | `book.html` | Free consultation booking: a 3-step form, plus an optional Calendly embed |
@@ -37,9 +37,14 @@ Edit **`assets/js/config.js`**. It holds the phone (currently **(647) 821-8290**
 
 ## Make the forms deliver to your inbox
 
-GitHub Pages can't receive form submissions on its own. Until you connect a form service, the forms open the visitor's email app with everything filled in.
+GitHub Pages can't receive form submissions on its own, so the three forms (free consultation, urgent booking, contact) send through **FormSubmit**, a free service that emails each submission to **aadteaching@gmail.com**. It's set in `formEndpoint` in `config.js`.
 
-To receive submissions directly, create a free form at [formspree.io](https://formspree.io) and paste its endpoint (for example `https://formspree.io/f/abcdwxyz`) into `formEndpoint` in `config.js`. Both forms then send there, with reply-to set to the visitor's email.
+**It needs a one-time activation: see [EMAIL-FORMS-SETUP.md](EMAIL-FORMS-SETUP.md).**
+
+- Hitting **Reply** on a submission email answers the visitor directly.
+- If sending ever fails, the visitor sees *"Send it from your email app instead"* (pre-filled) plus your phone number, so no request is lost.
+- To use **Formspree** instead, paste its endpoint (e.g. `https://formspree.io/f/abcdwxyz`) into `formEndpoint`.
+- Set `formEndpoint` to `""` to skip form services entirely; the forms then open the visitor's email app.
 
 To show a live booking calendar on `book.html`, paste a Calendly or Cal.com link into `calendlyUrl`.
 
@@ -70,7 +75,7 @@ A summary panel on the left fills in as they go (on phones it's a strip at the t
 - `minNoticeHours`: the earliest start (default: 2 hours from now).
 - `daysAhead`, `slotMinutes`, `durations`, `blockedDates` (e.g. `["2026-12-25"]`), `replyPromise`.
 
-Make sure **Formspree** is set up (`formEndpoint`), so urgent requests reach you directly instead of opening the visitor's email app.
+Make sure the forms are activated ([EMAIL-FORMS-SETUP.md](EMAIL-FORMS-SETUP.md)), so urgent requests reach your inbox directly.
 
 ### Connect Google Calendar (live availability)
 
@@ -93,7 +98,7 @@ Times are offered only inside the usual `hours` **and** outside his events. `buf
 
 **Option B: a separate "availability" calendar** (Teachworks-style). Only the times he blocks out are bookable.
 
-1. In Google Calendar, create a new calendar, e.g. "ADD availability", and make it **public** (full details are fine, since it only contains availability blocks).
+1. In Google Calendar, create a new calendar, e.g. "AAD availability", and make it **public** (full details are fine, since it only contains availability blocks).
 2. Add events for the times he's open, such as a weekly recurring "Mon–Fri 6–9 PM". Delete an occurrence to close that day.
 3. Use that calendar's ID and the same API key, and set `mode: "available"`.
 
@@ -101,7 +106,7 @@ Times are offered only inside the usual `hours` **and** outside his events. `buf
 
 ## Photos & collages
 
-The site uses 114 free stock photos from [Pexels](https://www.pexels.com/license/), stored in `assets/img/photos/`. They're free for commercial use and need no credit. Files are named by their Pexels ID: `{id}-800.webp`, plus `{id}-1400.webp` for photos shown large. To see one on Pexels, go to `https://www.pexels.com/photo/{id}/`. They show models, not real ADD students or staff.
+The site uses 114 free stock photos from [Pexels](https://www.pexels.com/license/), stored in `assets/img/photos/`. They're free for commercial use and need no credit. Files are named by their Pexels ID: `{id}-800.webp`, plus `{id}-1400.webp` for photos shown large. To see one on Pexels, go to `https://www.pexels.com/photo/{id}/`. They show models, not real AAD students or staff.
 
 **How the collages work**
 - Every photo spot is a **stack of 5–10 photos** that crossfades from one to the next. The container has `data-rotator`, plus `data-interval` (milliseconds between photos) and an optional `data-delay`.
@@ -121,7 +126,7 @@ The site uses 114 free stock photos from [Pexels](https://www.pexels.com/license
 - **Founders.** The founders are in the `founders` section of `index.html` and `approach.html`. Check every credential line. The MD co-founder's teaching lines are suggestions to confirm or edit.
 - **Popularity claims.** Wording like "200+ families", "Spots fill quickly" and "Limited spots each term" should stay true. Edit it if numbers change.
 - **Colours.** These are set at the top of `assets/css/styles.css` under `:root`. The site is black and white, and green (`#15803d`) is reserved for the **Book Your Free Consultation** buttons (`.btn-cta`). Any link to `book.html` styled as a button gets the green style automatically.
-  - **Where the buttons are.** The button lives in the header on every page (on phones, in the sticky bottom bar). Beyond that, each page has just one closing "Book your free consultation" banner, and the homepage also has its hero button. Program cards use a quiet "Ask about this program →" link instead of another button. Please keep it this way rather than adding more buttons.
+  - **Where the buttons are.** The button lives in the header on every page, next to the yellow one. On tablets and phones turned sideways, both sit beside the ☰ menu icon; on phones held upright, they're in the bottom bar. The phone number isn't in the header: it's in the footer and on the contact page. Beyond that, each page has just one closing "Book your free consultation" banner, and the homepage also has its hero button. Program cards use a quiet "Ask about this program →" link instead of another button. Please keep it this way rather than adding more buttons.
   - **Glow.** Only the homepage hero, the closing banner, the phone bar and the booking form's submit button glow. Edit the `.btn-cta` section of `styles.css` to change this.
 - **Fonts.** These load from Google Fonts in each page's `<head>`, and the CSS variables live in `:root`:
   - *Instrument Serif* (`--font-display`) for headlines, numbers and quotes
@@ -129,7 +134,7 @@ The site uses 114 free stock photos from [Pexels](https://www.pexels.com/license
   - *JetBrains Mono* (`--font-mono`) for small labels, course codes and clocks
   - *Caveat* for the whiteboard handwriting
 - **World clocks.** Edit the `data-tz` values (IANA names like `Europe/London`) in `index.html` and `contact.html`.
-- **Business name.** Find & Replace `Academy of Academic Distinction` and `ADD` across files. The logo is `assets/img/logo.svg`, the tab icon is `assets/img/favicon.svg`, and the header mark is the `brand-mark` span.
+- **Business name.** Find & Replace `Academy of Academic Distinction` and `AAD` across files. The logo is `assets/img/logo.svg`, the tab icon is `assets/img/favicon.svg`, and the header mark is the `brand-mark` span.
 
 ## Accessibility & motion
 
@@ -174,7 +179,7 @@ git push
 ## Before you launch: checklist
 
 - [ ] Replace the **sample testimonials** with real reviews, used with permission.
-- [ ] Connect **Formspree** and send yourself a test booking.
+- [ ] **Activate the forms** and send yourself a test from each one ([EMAIL-FORMS-SETUP.md](EMAIL-FORMS-SETUP.md)).
 - [ ] Confirm the **founder credentials** and the "200+ families" and "10+ teachers" claims.
 - [ ] Swap in **real team photos** where you can.
 - [ ] Confirm that the **business name and domain** are available.

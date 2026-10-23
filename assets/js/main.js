@@ -1,5 +1,5 @@
 /* =========================================================
-   ADD: Academy of Academic Distinction — site behaviour
+   AAD: Academy of Academic Distinction — site behaviour
    Settings live in config.js; you shouldn't need to edit this.
    ========================================================= */
 (function () {
@@ -322,6 +322,14 @@
     prefill(form);
     var errorBox = $(".form-error", form);
 
+    // If sending fails, the error box offers the visitor's email app instead (needs a real click to open it).
+    $$("[data-mailto-fallback]", form).forEach(function (a) {
+      a.addEventListener("click", function () {
+        if (errorBox) errorBox.classList.remove("is-visible");
+        setTimeout(function () { showSuccess(form, true); }, 50);
+      });
+    });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (errorBox) errorBox.classList.remove("is-visible");
@@ -347,6 +355,12 @@
       var data = collect(form);
       var who = data["Parent / guardian name"] || data["Name"] || data["Your name"] || "";
       var subject = (form.getAttribute("data-subject") || "Website enquiry") + (who ? " — " + who : "");
+      var lines = Object.keys(data).map(function (k) {
+        return k.charAt(0).toUpperCase() + k.slice(1) + ": " + data[k];
+      });
+      var mailHref = "mailto:" + (C.email || "") +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(lines.join("\n"));
 
       if (C.formEndpoint) {
         var btn = $('[type="submit"]', form);
@@ -354,25 +368,26 @@
         if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
         var payload = Object.assign({ _subject: subject }, data);
         if (data.email) payload._replyto = data.email;
+        if (/formsubmit\.co/.test(C.formEndpoint)) payload._template = "table";
         fetch(C.formEndpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json", "Accept": "application/json" },
           body: JSON.stringify(payload)
         }).then(function (res) {
-          if (!res.ok) throw new Error("Request failed");
-          showSuccess(form, false);
+          // Formspree answers {ok: false} on errors; FormSubmit answers {success: "false"} (e.g. before activation).
+          var body = typeof res.json === "function" ? res.json().catch(function () { return {}; }) : Promise.resolve({});
+          return body.then(function (j) {
+            if (!res.ok || (j && (j.ok === false || String(j.success) === "false"))) throw new Error("Request failed");
+            showSuccess(form, false);
+          });
         }).catch(function () {
+          $$("[data-mailto-fallback]", form).forEach(function (a) { a.href = mailHref; });
           if (errorBox) errorBox.classList.add("is-visible");
         }).then(function () {
           if (btn) { btn.disabled = false; btn.innerHTML = label; }
         });
       } else {
-        var lines = Object.keys(data).map(function (k) {
-          return k.charAt(0).toUpperCase() + k.slice(1) + ": " + data[k];
-        });
-        window.location.href = "mailto:" + (C.email || "") +
-          "?subject=" + encodeURIComponent(subject) +
-          "&body=" + encodeURIComponent(lines.join("\n"));
+        window.location.href = mailHref;
         showSuccess(form, true);
       }
     });
