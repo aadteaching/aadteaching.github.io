@@ -111,7 +111,7 @@
   <div class="container">
     <ol class="breadcrumb"><li><a href="index.html">Home</a></li><li>Urgent booking</li></ol>
     <h1>Need help <em>fast?</em></h1>
-    <p class="lead">Four quick taps. We'll confirm by email or text <span data-config="urgent.replyPromise">within 2 hours during office hours</span>.</p>
+    <p class="lead">3 quick steps. We confirm <span data-config="urgent.replyPromise">within 2 hours during office hours</span>.</p>
   </div>
 </section>
 
@@ -129,7 +129,7 @@
       <input type="hidden" name="Student time zone" value="">
       <input type="hidden" name="Availability check" value="">
 
-      <!-- Left: what they've chosen so far (Calendly-style) -->
+      <!-- Left: what they've chosen so far -->
       <aside class="wz-side" aria-label="Your booking so far">
         <div class="wz-brand">
           <span class="brand-mark" aria-hidden="true">AAD</span>
@@ -139,20 +139,20 @@
         <ul class="wz-facts">
           <li data-fact="mode"><svg class="i i-video" aria-hidden="true"><use href="#i-video"/></svg><span>Live online, one-on-one</span></li>
           <li data-fact="subject" class="is-empty"><svg class="i i-book" aria-hidden="true"><use href="#i-book"/></svg><span>Subject</span></li>
-          <li data-fact="duration" class="is-empty"><svg class="i i-clock" aria-hidden="true"><use href="#i-clock"/></svg><span>Length</span></li>
+          <li data-fact="duration"><svg class="i i-clock" aria-hidden="true"><use href="#i-clock"/></svg><span>1 hour</span></li>
           <li data-fact="when" class="is-empty"><svg class="i i-calendar" aria-hidden="true"><use href="#i-calendar"/></svg><span>Day &amp; time</span></li>
           <li data-fact="tz"><svg class="i i-globe" aria-hidden="true"><use href="#i-globe"/></svg><span>Eastern Time (Toronto)</span></li>
         </ul>
         <p class="wz-status" data-cal-status><span class="wz-status-dot"></span><span data-cal-text>Times based on our usual hours</span></p>
-        <p class="wz-help" data-show-if="phone">Need help within the hour? Call or text <a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a></p>
+        <p class="wz-help" data-show-if="phone"><svg class="i i-phone" aria-hidden="true"><use href="#i-phone"/></svg> Faster? Call or text <a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a></p>
       </aside>
 
       <!-- Right: one step at a time -->
       <div class="wz-main">
         <div class="wz-top">
           <button class="wz-back" type="button" data-back hidden><svg class="i i-arrow wz-back-i" aria-hidden="true"><use href="#i-arrow"/></svg> Back</button>
-          <ol class="wz-dots" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
-          <span class="wz-count" data-step-count>Step 1 of 4</span>
+          <ol class="wz-dots" aria-hidden="true"><li></li><li></li><li></li></ol>
+          <span class="wz-count" data-step-count>Step 1 of 3</span>
         </div>
 
         <!-- 1. Subject -->
@@ -173,17 +173,15 @@
           <button type="button" class="btn btn-primary btn-lg btn-block wz-continue" data-continue disabled>Continue <svg class="i i-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
         </section>
 
-        <!-- 2. Length -->
+        <!-- 2. Length, day & time -->
         <section class="wz-step" data-step="2" hidden>
-          <h2 tabindex="-1">How long do you need?</h2>
-          <div class="wz-lengths" role="group" aria-label="Session length" data-durations></div>
-        </section>
-
-        <!-- 3. Day & time -->
-        <section class="wz-step" data-step="3" hidden>
-          <h2 tabindex="-1">Pick a day and time</h2>
+          <h2 tabindex="-1">Pick a time</h2>
+          <div class="wz-lens">
+            <span class="wz-label"><svg class="i i-clock" aria-hidden="true"><use href="#i-clock"/></svg> Length</span>
+            <div class="wz-lens-list" role="group" aria-label="Session length" data-durations></div>
+          </div>
           <div class="wz-soonest" data-soonest hidden>
-            <p class="wz-label"><svg class="i i-bolt" aria-hidden="true"><use href="#i-bolt"/></svg> Soonest available</p>
+            <p class="wz-label"><svg class="i i-bolt" aria-hidden="true"><use href="#i-bolt"/></svg> Soonest</p>
             <div class="wz-soonest-list" data-soonest-list></div>
           </div>
           <div class="wz-picker">
@@ -212,22 +210,15 @@
           <div class="wz-loading" data-cal-loading hidden><span class="wz-spinner"></span> Checking live availability…</div>
         </section>
 
-        <!-- 4. Contact -->
-        <section class="wz-step" data-step="4" hidden>
+        <!-- 3. Contact -->
+        <section class="wz-step" data-step="3" hidden>
           <h2 tabindex="-1">Where should we confirm?</h2>
-          <p class="wz-sub">An email <strong>or</strong> a cell number is all we need.</p>
-          <div class="wz-contact" data-require-any>
-            <div class="field">
-              <label class="label" for="u-email">Email</label>
-              <input class="input" id="u-email" type="email" name="email" autocomplete="email" placeholder="you@example.com">
-            </div>
-            <span class="wz-or" aria-hidden="true">or</span>
-            <div class="field">
-              <label class="label" for="u-phone">Cell number</label>
-              <input class="input" id="u-phone" type="tel" name="Phone" autocomplete="tel" placeholder="(647) 555-0123" pattern="[\d\s\(\)\+\.\-]{7,}" title="Digits, spaces and ( ) + - only">
-            </div>
+          <div class="field">
+            <label class="label" for="u-reach">Email or cell</label>
+            <input class="input input-xl" id="u-reach" data-reach autocomplete="email" placeholder="you@example.com or 647 555 0123">
+            <input type="hidden" name="email"><input type="hidden" name="Phone">
+            <p class="field-error" role="alert">Please add an email or a cell number so we can confirm.</p>
           </div>
-          <p class="field-error" role="alert">Please add an email or a cell number so we can confirm.</p>
           <div class="field">
             <label class="label" for="u-name">Your name <span class="opt">(optional)</span></label>
             <input class="input" id="u-name" name="Name" autocomplete="name">
@@ -248,11 +239,11 @@
             </div>
             <div class="field" style="margin-bottom:0">
               <label class="label" for="u-details">What's coming up?</label>
-              <textarea class="textarea" id="u-details" name="Details" placeholder="e.g. Calculus test on Friday, stuck on related rates"></textarea>
+              <textarea class="textarea" id="u-details" name="Details" placeholder="e.g. Calculus test on Friday"></textarea>
             </div>
           </details>
           <button class="btn btn-urgent btn-lg btn-block wz-send" type="submit"><svg class="i i-bolt" aria-hidden="true"><use href="#i-bolt"/></svg> Send Urgent Request</button>
-          <p class="wz-fine">Not booked yet: we'll check and confirm by email or text <span data-config="urgent.replyPromise">within 2 hours during office hours</span>.</p>
+          <p class="wz-fine">Not booked yet: we'll confirm by email or text.</p>
           <div class="form-error" role="alert">Your request didn't go through. <a href="#" data-mailto-fallback>Send it from your email app instead</a>, or call or text <a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a>.</div>
         </section>
       </div>
@@ -261,13 +252,13 @@
         <div class="success-icon"><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></div>
         <h2>Request sent. <em>We're on it.</em></h2>
         <p data-success-when></p>
-        <p data-success-sent>We'll check availability and confirm by email or text <span data-config="urgent.replyPromise">within 2 hours during office hours</span>. Your session isn't booked until you hear from us.</p>
+        <p data-success-sent>We'll confirm by email or text <span data-config="urgent.replyPromise">within 2 hours during office hours</span>.</p>
         <p data-success-mailto hidden>Your email app should have opened with your request filled in. Just press <strong>send</strong>. If nothing opened, call or text <a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a>.</p>
         <a class="btn btn-ghost" href="index.html">Back to home</a>
       </div>
     </form>
 
-    <p class="wz-alt">Not urgent? <a href="book.html">Book a free consultation</a> instead.</p>
+    <p class="wz-alt">Not urgent? <a href="book.html">Book a free consultation</a>.</p>
   </div>
 </section>
 </main>

@@ -107,268 +107,121 @@
 </header>
 
 <main id="main">
-<section class="page-hero" style="padding-bottom:clamp(36px,5vw,56px)">
+<section class="wz-hero">
   <div class="container">
-    <div class="page-hero-copy">
-      <ol class="breadcrumb"><li><a href="index.html">Home</a></li><li>Book a Consultation</li></ol>
-      <span class="eyebrow">Free consultation</span>
-      <h1>Book your free <em>consultation.</em></h1>
-      <p class="lead">Thirty minutes with an academic director. No obligation, no pressure, just a clear plan.</p>
-    </div>
+    <ol class="breadcrumb"><li><a href="index.html">Home</a></li><li>Free consultation</li></ol>
+    <h1>Book your free <em>consultation.</em></h1>
+    <p class="lead">30 minutes. Free, no pressure.</p>
   </div>
 </section>
 
-<section class="section section--gray" style="padding-top:clamp(40px,5vw,64px)">
-  <div class="container form-layout">
-    <div class="form-card reveal">
-      <p class="spots-note"><span class="live-dot"></span> Spots are limited each term. We reply within one business day.</p>
-      <p class="small muted" style="margin:-12px 0 22px">Need a session today or tomorrow? <a href="book-now.html" style="color:#1d1d1f;font-weight:600">Urgently book a session →</a></p>
-      <p class="small" data-calendly-link hidden style="margin:0 0 22px"><a class="link-arrow" href="#schedule">Prefer to pick a time on our calendar? <svg class="i i-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+<section class="wz-section">
+  <div class="container">
+    <form class="wz" data-form="consultation" data-subject="New consultation request" action="#" method="post">
+      <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+      <input type="hidden" name="Program of interest" data-prefill="program" value="">
+      <input type="hidden" name="Time zone" data-autofill="timezone" value="">
 
-      <form data-form="consultation" data-subject="New consultation request" action="#" method="post">
-        <ol class="form-progress" aria-hidden="true">
-          <li class="is-active"><span>01</span> Student</li>
-          <li><span>02</span> Goals</li>
-          <li><span>03</span> Contact</li>
-        </ol>
-
-        <input type="hidden" name="Program of interest" data-prefill="program" value="">
-        <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
-
-        <!-- Step 1 -->
-        <fieldset class="form-step">
-          <legend>About the student</legend>
-          <p class="step-intro">Tell us who we'll be helping. This takes about a minute.</p>
-
-          <div class="field">
-            <span class="label" id="who-label">Who is the consultation for?</span>
-            <div class="chip-group" role="radiogroup" aria-labelledby="who-label">
-              <label class="chip"><input type="radio" name="Booking for" value="My child" checked><span>My child</span></label>
-              <label class="chip"><input type="radio" name="Booking for" value="Myself"><span>Myself (I'm the student)</span></label>
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label class="label" for="grade">Grade or level</label>
-              <select class="select" id="grade" name="Grade / level" required>
-                <option value="">Select…</option>
-                <option>Grades 3–5</option>
-                <option>Grades 6–8</option>
-                <option>Grade 9</option>
-                <option>Grade 10</option>
-                <option>Grade 11</option>
-                <option>Grade 12</option>
-                <option>University: 1st or 2nd year</option>
-                <option>University: upper year</option>
-                <option>Master's / PhD / graduate applicant</option>
-                <option>Adult learner</option>
-              </select>
-            </div>
-            <div class="field">
-              <label class="label" for="curriculum">Curriculum</label>
-              <select class="select" id="curriculum" name="Curriculum" required>
-                <option value="">Select…</option>
-                <option>Ontario</option>
-                <option>British Columbia</option>
-                <option>Other Canadian province</option>
-                <option>IB</option>
-                <option>AP</option>
-                <option>A-Level / IGCSE</option>
-                <option>University / graduate</option>
-                <option>Other / not sure</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field">
-            <span class="label" id="subj-label">Subject(s) of interest</span>
-            <div class="chip-group" role="group" aria-labelledby="subj-label" data-require-one>
-              <label class="chip"><input type="checkbox" name="Subjects" value="Mathematics" data-prefill="subject"><span>Mathematics</span></label>
-              <label class="chip"><input type="checkbox" name="Subjects" value="Physics" data-prefill="subject"><span>Physics</span></label>
-              <label class="chip"><input type="checkbox" name="Subjects" value="Chemistry" data-prefill="subject"><span>Chemistry</span></label>
-              <label class="chip"><input type="checkbox" name="Subjects" value="Biology" data-prefill="subject"><span>Biology</span></label>
-              <label class="chip"><input type="checkbox" name="Subjects" value="Computer Science" data-prefill="subject"><span>Computer Science</span></label>
-              <label class="chip"><input type="checkbox" name="Subjects" value="University / Engineering" data-prefill="subject"><span>University / Engineering</span></label>
-              <label class="chip"><input type="checkbox" name="Subjects" value="Test &amp; Contest Prep" data-prefill="subject"><span>Test &amp; Contest Prep</span></label>
-              <label class="chip"><input type="checkbox" name="Subjects" value="Research &amp; Graduate School" data-prefill="subject"><span>Research &amp; Graduate School</span></label>
-            </div>
-            <p class="field-error" role="alert">Please choose at least one subject.</p>
-          </div>
-
-          <div class="form-actions">
-            <span class="spacer"></span>
-            <button class="btn btn-primary" type="button" data-step-next>Continue <svg class="i i-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-          </div>
-        </fieldset>
-
-        <!-- Step 2 -->
-        <fieldset class="form-step" hidden>
-          <legend>Goals &amp; schedule</legend>
-          <p class="step-intro">The more we know, the more useful your consultation will be.</p>
-
-          <div class="field">
-            <span class="label" id="goal-label">Main goals <span class="opt">(choose any)</span></span>
-            <div class="chip-group" role="group" aria-labelledby="goal-label">
-              <label class="chip"><input type="checkbox" name="Goals" value="Improve marks"><span>Improve marks</span></label>
-              <label class="chip"><input type="checkbox" name="Goals" value="Prepare for a test or exam"><span>Prepare for a test or exam</span></label>
-              <label class="chip"><input type="checkbox" name="Goals" value="Get ahead / enrichment"><span>Get ahead / enrichment</span></label>
-              <label class="chip"><input type="checkbox" name="Goals" value="Build confidence"><span>Build confidence</span></label>
-              <label class="chip"><input type="checkbox" name="Goals" value="Contest preparation"><span>Contest preparation</span></label>
-              <label class="chip"><input type="checkbox" name="Goals" value="University applications"><span>University applications</span></label>
-              <label class="chip"><input type="checkbox" name="Goals" value="Research paper / publication"><span>Research paper / publication</span></label>
-              <label class="chip"><input type="checkbox" name="Goals" value="Master's / PhD applications"><span>Master's / PhD applications</span></label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label" for="details">Tell us a little more <span class="opt">(optional)</span></label>
-            <textarea class="textarea" id="details" name="Details" placeholder="Current course and mark, upcoming tests, research topic, application deadlines…"></textarea>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label class="label" for="format">Session format</label>
-              <select class="select" id="format" name="Session format">
-                <option>One-on-one</option>
-                <option>Small group (2–4 students)</option>
-                <option>Not sure yet</option>
-              </select>
-            </div>
-            <div class="field">
-              <label class="label" for="start">When would you like to start?</label>
-              <select class="select" id="start" name="Start">
-                <option>As soon as possible</option>
-                <option>Within the next month</option>
-                <option>Next term</option>
-                <option>Just exploring</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label" for="tz">Your time zone</label>
-            <input class="input" id="tz" name="Time zone" data-autofill="timezone" placeholder="e.g. Toronto (Eastern Time)" required>
-            <span class="hint">Detected automatically. We schedule every session in your local time.</span>
-          </div>
-
-          <div class="field">
-            <span class="label" id="time-label">Preferred session times <span class="opt">(your local time, choose any)</span></span>
-            <div class="chip-group" role="group" aria-labelledby="time-label">
-              <label class="chip"><input type="checkbox" name="Preferred times" value="Weekday afternoons"><span>Weekday afternoons</span></label>
-              <label class="chip"><input type="checkbox" name="Preferred times" value="Weekday evenings"><span>Weekday evenings</span></label>
-              <label class="chip"><input type="checkbox" name="Preferred times" value="Weekend mornings"><span>Weekend mornings</span></label>
-              <label class="chip"><input type="checkbox" name="Preferred times" value="Weekend afternoons"><span>Weekend afternoons</span></label>
-            </div>
-          </div>
-
-          <div class="form-actions">
-            <button class="btn btn-ghost" type="button" data-step-prev>Back</button>
-            <button class="btn btn-primary" type="button" data-step-next>Continue <svg class="i i-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-          </div>
-        </fieldset>
-
-        <!-- Step 3 -->
-        <fieldset class="form-step" hidden>
-          <legend>Your contact details</legend>
-          <p class="step-intro">We'll reach out within one business day to confirm a time.</p>
-
-          <div class="field-row">
-            <div class="field">
-              <label class="label" for="name">Your name</label>
-              <input class="input" id="name" name="Name" autocomplete="name" required>
-            </div>
-            <div class="field">
-              <label class="label" for="student">Student's first name <span class="opt">(optional)</span></label>
-              <input class="input" id="student" name="Student name" autocomplete="off">
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label class="label" for="email">Email</label>
-              <input class="input" id="email" type="email" name="email" autocomplete="email" required>
-            </div>
-            <div class="field">
-              <label class="label" for="phone">Phone</label>
-              <input class="input" id="phone" type="tel" name="Phone" autocomplete="tel" required>
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label class="label" for="pref">Best way to reach you</label>
-              <select class="select" id="pref" name="Contact preference">
-                <option>Phone call</option>
-                <option>Text message</option>
-                <option>Email</option>
-              </select>
-            </div>
-            <div class="field">
-              <label class="label" for="source">How did you hear about us? <span class="opt">(optional)</span></label>
-              <select class="select" id="source" name="Heard about us">
-                <option value="">Select…</option>
-                <option>Referral from a family</option>
-                <option>Google search</option>
-                <option>Social media</option>
-                <option>School or teacher</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-
-          <label class="consent"><input type="checkbox" name="Consent to contact" value="Yes" required><span>I agree to be contacted by AAD: Academy of Academic Distinction about this consultation. We never share your information.</span></label>
-
-          <div class="form-actions">
-            <button class="btn btn-ghost" type="button" data-step-prev>Back</button>
-            <button class="btn btn-cta btn-lg" type="submit">Book My Free Consultation <svg class="i i-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-          </div>
-          <p class="form-note"><svg class="i i-lock" aria-hidden="true"><use href="#i-lock"/></svg> Your information is private and used only to arrange your consultation.</p>
-        </fieldset>
-
-        <div class="form-error" role="alert">Your request didn't go through. <a href="#" data-mailto-fallback>Send it from your email app instead</a>, or call or text <a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a>.</div>
-
-        <div class="form-success" role="status" aria-live="polite">
-          <div class="success-icon"><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></div>
-          <h2>Thank you. We've got it.</h2>
-          <p data-success-sent>An academic director will be in touch within one business day to confirm your consultation time.</p>
-          <p data-success-mailto hidden>Your email app should have opened with your request filled in. Just press <strong>send</strong>. If nothing opened, call or text <a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a>.</p>
-          <a class="btn btn-ghost" href="index.html">Back to home</a>
+      <!-- Left: what they've chosen so far -->
+      <aside class="wz-side" aria-label="Your consultation so far">
+        <div class="wz-brand">
+          <span class="brand-mark" aria-hidden="true">AAD</span>
+          <span class="wz-org">Academy of Academic Distinction</span>
         </div>
-      </form>
-    </div>
+        <h2 class="wz-title">Free consultation</h2>
+        <ul class="wz-facts">
+          <li data-fact="mode"><svg class="i i-video" aria-hidden="true"><use href="#i-video"/></svg><span>30 min, video or phone</span></li>
+          <li data-fact-from="Program of interest" data-hide-empty hidden><svg class="i i-award" aria-hidden="true"><use href="#i-award"/></svg><span></span></li>
+          <li data-fact-from="Level" class="is-empty"><svg class="i i-cap" aria-hidden="true"><use href="#i-cap"/></svg><span data-empty="Level">Level</span></li>
+          <li data-fact-from="Subjects" class="is-empty"><svg class="i i-book" aria-hidden="true"><use href="#i-book"/></svg><span data-empty="Subjects">Subjects</span></li>
+        </ul>
+        <figure class="photo wz-photo" data-rotator data-interval="4400" role="img" aria-label="Parents and children smiling at a laptop">
+          <img class="is-on" src="assets/img/photos/6482133-800.webp" srcset="assets/img/photos/6482133-800.webp 800w" sizes="(max-width: 640px) 50vw, 25vw" alt="" decoding="async" loading="lazy"><img data-src="assets/img/photos/4260315-800.webp" data-srcset="assets/img/photos/4260315-800.webp 800w" sizes="(max-width: 640px) 50vw, 25vw" alt="" decoding="async"><img data-src="assets/img/photos/8260187-800.webp" data-srcset="assets/img/photos/8260187-800.webp 800w" sizes="(max-width: 640px) 50vw, 25vw" alt="" decoding="async" style="object-position:50% 72%"><img data-src="assets/img/photos/4260475-800.webp" data-srcset="assets/img/photos/4260475-800.webp 800w" sizes="(max-width: 640px) 50vw, 25vw" alt="" decoding="async"><img data-src="assets/img/photos/4609043-800.webp" data-srcset="assets/img/photos/4609043-800.webp 800w" sizes="(max-width: 640px) 50vw, 25vw" alt="" decoding="async"><img data-src="assets/img/photos/6255709-800.webp" data-srcset="assets/img/photos/6255709-800.webp 800w" sizes="(max-width: 640px) 50vw, 25vw" alt="" decoding="async" style="object-position:50% 40%">
+        </figure>
+        <p class="wz-help" data-show-if="phone"><svg class="i i-phone" aria-hidden="true"><use href="#i-phone"/></svg> Questions? <a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a></p>
+        <p class="wz-help" data-calendly-link hidden><a href="#schedule">Pick a time on our calendar instead</a></p>
+      </aside>
 
-    <aside class="aside-stack">
-      <figure class="photo photo--4x3 reveal" data-rotator data-interval="4400" role="img" aria-label="Parents and children smiling at a laptop">
-        <img class="is-on" src="assets/img/photos/6482133-800.webp" srcset="assets/img/photos/6482133-800.webp 800w, assets/img/photos/6482133-1400.webp 1400w" sizes="(max-width: 1060px) 100vw, 50vw" alt="" decoding="async" loading="lazy"><img data-src="assets/img/photos/4260315-800.webp" data-srcset="assets/img/photos/4260315-800.webp 800w, assets/img/photos/4260315-1400.webp 1400w" sizes="(max-width: 1060px) 100vw, 50vw" alt="" decoding="async"><img data-src="assets/img/photos/8260187-800.webp" data-srcset="assets/img/photos/8260187-800.webp 800w, assets/img/photos/8260187-1400.webp 1400w" sizes="(max-width: 1060px) 100vw, 50vw" alt="" decoding="async" style="object-position:50% 72%"><img data-src="assets/img/photos/4260475-800.webp" data-srcset="assets/img/photos/4260475-800.webp 800w, assets/img/photos/4260475-1400.webp 1400w" sizes="(max-width: 1060px) 100vw, 50vw" alt="" decoding="async"><img data-src="assets/img/photos/4609043-800.webp" data-srcset="assets/img/photos/4609043-800.webp 800w, assets/img/photos/4609043-1400.webp 1400w" sizes="(max-width: 1060px) 100vw, 50vw" alt="" decoding="async"><img data-src="assets/img/photos/6255709-800.webp" data-srcset="assets/img/photos/6255709-800.webp 800w, assets/img/photos/6255709-1400.webp 1400w" sizes="(max-width: 1060px) 100vw, 50vw" alt="" decoding="async" style="object-position:50% 40%">
-      </figure>
-      <div class="aside-card reveal">
-        <h3>What happens next</h3>
-        <ol class="mini-steps">
-          <li><span><strong>We confirm a time</strong>Within one business day, by your preferred method.</span></li>
-          <li><span><strong>Your consultation</strong>30 minutes by video or phone with an academic director.</span></li>
-          <li><span><strong>Your plan</strong>A recommended program, teacher match and schedule.</span></li>
-          <li><span><strong>First session</strong>Usually within a week.</span></li>
-        </ol>
+      <!-- Right: one step at a time -->
+      <div class="wz-main">
+        <div class="wz-top">
+          <button class="wz-back" type="button" data-step-prev hidden><svg class="i i-arrow wz-back-i" aria-hidden="true"><use href="#i-arrow"/></svg> Back</button>
+          <ol class="wz-dots" aria-hidden="true"><li></li><li></li><li></li></ol>
+          <span class="wz-count" data-stepper-count>Step 1 of 3</span>
+        </div>
+
+        <!-- 1. Level -->
+        <section class="form-step wz-step" data-step="1">
+          <h2 tabindex="-1" id="cs-level">Who is it for?</h2>
+          <div class="wz-tiles wz-tiles--big" role="radiogroup" aria-labelledby="cs-level" data-auto-next>
+            <label class="wz-tile wz-pick"><input type="radio" name="Level" value="Grades 3–8" required><svg class="i i-pen" aria-hidden="true"><use href="#i-pen"/></svg><span class="pick-text"><strong>Grades 3–8</strong><small>Elementary &amp; middle school</small></span></label>
+            <label class="wz-tile wz-pick"><input type="radio" name="Level" value="Grades 9–12" required><svg class="i i-book" aria-hidden="true"><use href="#i-book"/></svg><span class="pick-text"><strong>Grades 9–12</strong><small>High school, IB &amp; AP</small></span></label>
+            <label class="wz-tile wz-pick"><input type="radio" name="Level" value="University" required><svg class="i i-cap" aria-hidden="true"><use href="#i-cap"/></svg><span class="pick-text"><strong>University</strong><small>College &amp; university</small></span></label>
+            <label class="wz-tile wz-pick"><input type="radio" name="Level" value="Master's / PhD" required><svg class="i i-doc" aria-hidden="true"><use href="#i-doc"/></svg><span class="pick-text"><strong>Master's &amp; PhD</strong><small>Research &amp; grad school</small></span></label>
+          </div>
+        </section>
+
+        <!-- 2. Subjects -->
+        <section class="form-step wz-step" data-step="2" hidden>
+          <h2 tabindex="-1" id="cs-subj">Which subjects?</h2>
+          <p class="wz-sub">Pick one or more.</p>
+          <div class="wz-tiles" role="group" aria-labelledby="cs-subj" data-require-one>
+            <label class="wz-tile wz-pick"><input type="checkbox" name="Subjects" value="Mathematics" data-prefill="subject"><svg class="i i-sigma" aria-hidden="true"><use href="#i-sigma"/></svg><span>Math</span></label>
+            <label class="wz-tile wz-pick"><input type="checkbox" name="Subjects" value="Physics" data-prefill="subject"><svg class="i i-atom" aria-hidden="true"><use href="#i-atom"/></svg><span>Physics</span></label>
+            <label class="wz-tile wz-pick"><input type="checkbox" name="Subjects" value="Chemistry" data-prefill="subject"><svg class="i i-flask" aria-hidden="true"><use href="#i-flask"/></svg><span>Chemistry</span></label>
+            <label class="wz-tile wz-pick"><input type="checkbox" name="Subjects" value="Biology" data-prefill="subject"><svg class="i i-dna" aria-hidden="true"><use href="#i-dna"/></svg><span>Biology</span></label>
+            <label class="wz-tile wz-pick"><input type="checkbox" name="Subjects" value="Computer Science" data-prefill="subject"><svg class="i i-code" aria-hidden="true"><use href="#i-code"/></svg><span>Computer Science</span></label>
+            <label class="wz-tile wz-pick"><input type="checkbox" name="Subjects" value="University / Engineering" data-prefill="subject"><svg class="i i-cpu" aria-hidden="true"><use href="#i-cpu"/></svg><span>University &amp; Engineering</span></label>
+            <label class="wz-tile wz-pick"><input type="checkbox" name="Subjects" value="Test &amp; Contest Prep" data-prefill="subject"><svg class="i i-target" aria-hidden="true"><use href="#i-target"/></svg><span>Test &amp; Contest Prep</span></label>
+            <label class="wz-tile wz-pick"><input type="checkbox" name="Subjects" value="Research &amp; Graduate School" data-prefill="subject"><svg class="i i-doc" aria-hidden="true"><use href="#i-doc"/></svg><span>Research &amp; Grad School</span></label>
+            <label class="wz-tile wz-pick"><input type="checkbox" name="Subjects" value="Something else" data-prefill="subject"><svg class="i i-message" aria-hidden="true"><use href="#i-message"/></svg><span>Something else</span></label>
+          </div>
+          <p class="field-error" role="alert">Pick at least one subject.</p>
+          <button type="button" class="btn btn-primary btn-lg btn-block wz-continue" data-step-next data-needs-pick="subjects" disabled>Continue <svg class="i i-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </section>
+
+        <!-- 3. Contact -->
+        <section class="form-step wz-step" data-step="3" hidden>
+          <h2 tabindex="-1">How can we reach you?</h2>
+          <div class="field">
+            <label class="label" for="name">Your name</label>
+            <input class="input input-xl" id="name" name="Name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label class="label" for="reach">Email or cell</label>
+            <input class="input input-xl" id="reach" data-reach autocomplete="email" placeholder="you@example.com or 647 555 0123">
+            <input type="hidden" name="email"><input type="hidden" name="Phone">
+            <p class="field-error" role="alert">Please add an email or a cell number so we can reach you.</p>
+          </div>
+          <details class="wz-more">
+            <summary>Add a note <span class="opt">(optional)</span></summary>
+            <div class="field" style="margin:14px 0 0">
+              <label class="label" for="details">Anything we should know?</label>
+              <textarea class="textarea" id="details" name="Details" placeholder="Goals, upcoming tests, deadlines…"></textarea>
+            </div>
+          </details>
+          <button class="btn btn-cta btn-lg btn-block wz-send" type="submit">Book My Free Consultation <svg class="i i-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <p class="wz-fine"><svg class="i i-lock" aria-hidden="true"><use href="#i-lock"/></svg> We reply within one business day. Never shared.</p>
+          <div class="form-error" role="alert">Your request didn't go through. <a href="#" data-mailto-fallback>Send it from your email app instead</a>, or call or text <a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a>.</div>
+        </section>
       </div>
-      <div class="aside-card aside-card--dark reveal">
-        <h3>Prefer to talk now?</h3>
-        <p class="small" style="margin:0">Call or text us. We're happy to answer questions.</p>
-        <ul class="aside-contact">
-          <li data-show-if="phone"><svg class="i i-phone" aria-hidden="true"><use href="#i-phone"/></svg><a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a></li>
-          <li data-show-if="email"><svg class="i i-mail" aria-hidden="true"><use href="#i-mail"/></svg><a href="mailto:aadteaching@gmail.com" data-config-href="email" data-config="email">aadteaching@gmail.com</a></li>
-        </ul>
+
+      <div class="form-success" role="status" aria-live="polite">
+        <div class="success-icon"><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></div>
+        <h2>Thank you. <em>We've got it.</em></h2>
+        <p data-success-sent>We'll be in touch within one business day to set up your consultation.</p>
+        <p data-success-mailto hidden>Your email app should have opened with your request filled in. Just press <strong>send</strong>. If nothing opened, call or text <a href="tel:+16478218290" data-config-href="phone" data-config="phone">(647) 821-8290</a>.</p>
+        <a class="btn btn-ghost" href="index.html">Back to home</a>
       </div>
-      <div class="aside-card reveal">
-        <h3>Why 200+ families chose AAD</h3>
-        <ul class="check-list small" style="margin-top:14px">
-          <li>10+ graduate-level teachers</li>
-          <li>Founded by a U of T PhD and a uOttawa MD</li>
-          <li>Live online, in your time zone</li>
-          <li>First-session fit guarantee</li>
-        </ul>
-      </div>
-    </aside>
+    </form>
+
+    <ol class="next-steps" aria-label="What happens next">
+      <li class="reveal"><span class="icon-badge icon-badge--soft"><svg class="i i-phone" aria-hidden="true"><use href="#i-phone"/></svg></span><span><strong>We reach out</strong>Within one business day</span></li>
+      <li class="reveal reveal-d1"><span class="icon-badge icon-badge--soft"><svg class="i i-video" aria-hidden="true"><use href="#i-video"/></svg></span><span><strong>30-minute chat</strong>With an academic director</span></li>
+      <li class="reveal reveal-d2"><span class="icon-badge icon-badge--soft"><svg class="i i-compass" aria-hidden="true"><use href="#i-compass"/></svg></span><span><strong>Your plan</strong>Teacher match &amp; schedule</span></li>
+    </ol>
+
+    <p class="wz-alt">Need help today? <a href="book-now.html">Urgent booking</a>.</p>
   </div>
 </section>
 

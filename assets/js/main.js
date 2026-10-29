@@ -214,25 +214,38 @@
       }
       if (err) err.classList.remove("is-visible");
     }
-    var anyGroups = $$("[data-require-any]", scope);
-    for (var k = 0; k < anyGroups.length; k++) {
-      var ag = anyGroups[k], aerr = ag.parentNode.querySelector(".field-error");
-      var filled = $$("input", ag).some(function (inp) { return inp.value.trim() !== ""; });
-      if (!filled) {
-        if (aerr) aerr.classList.add("is-visible");
-        $("input", ag).focus();
+    var reach = $$("[data-reach]", scope);
+    for (var k = 0; k < reach.length; k++) {
+      var rerr = reach[k].parentNode.querySelector(".field-error");
+      if (!reachOk(reach[k].value)) {
+        if (rerr) rerr.classList.add("is-visible");
+        reach[k].focus();
         return false;
       }
-      if (aerr) aerr.classList.remove("is-visible");
+      if (rerr) rerr.classList.remove("is-visible");
     }
     return true;
   }
 
-  // Hide an "email or cell" message as soon as either is typed.
-  $$("[data-require-any]").forEach(function (g) {
-    g.addEventListener("input", function () {
-      var err = g.parentNode.querySelector(".field-error");
-      if (err && $$("input", g).some(function (i) { return i.value.trim() !== ""; })) err.classList.remove("is-visible");
+  // One "Email or cell" box: an email address, or a phone number with at least 7 digits.
+  function reachOk(v) {
+    v = v.trim();
+    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) || (/^[\d\s().+-]+$/.test(v) && v.replace(/\D/g, "").length >= 7);
+  }
+  // ...sent as "email" (so Reply goes to them) or as "Phone".
+  function splitReach(form) {
+    $$("[data-reach]", form).forEach(function (inp) {
+      var v = inp.value.trim(), mail = v.indexOf("@") !== -1;
+      var em = $('[name="email"]', inp.parentNode), ph = $('[name="Phone"]', inp.parentNode);
+      if (em) em.value = mail ? v : "";
+      if (ph) ph.value = mail ? "" : v;
+    });
+  }
+  // Hide its message as soon as what's typed works.
+  $$("[data-reach]").forEach(function (inp) {
+    inp.addEventListener("input", function () {
+      var err = inp.parentNode.querySelector(".field-error");
+      if (err && reachOk(inp.value)) err.classList.remove("is-visible");
     });
   });
 
@@ -247,20 +260,28 @@
   function initStepper(form) {
     var steps = $$(".form-step", form);
     if (steps.length < 2) return null;
-    var progress = $$(".form-progress li", form);
+    var progress = $$(".form-progress li, .wz-dots li", form);
+    var countEl = $("[data-stepper-count]", form), backBtns = $$(".wz-top [data-step-prev]", form);
+    var calm = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     var current = 0;
     function show(i, focus) {
       current = Math.max(0, Math.min(i, steps.length - 1));
-      steps.forEach(function (s, k) { s.hidden = k !== current; });
+      steps.forEach(function (s, k) {
+        s.hidden = k !== current;
+        s.classList.toggle("is-entering", k === current && !!focus && !calm);
+      });
       progress.forEach(function (p, k) {
         p.classList.toggle("is-active", k === current);
+        p.classList.toggle("is-current", k === current);
         p.classList.toggle("is-done", k < current);
       });
+      if (countEl) countEl.textContent = "Step " + (current + 1) + " of " + steps.length;
+      backBtns.forEach(function (b) { b.hidden = current === 0; });
       if (focus) {
         var top = form.getBoundingClientRect().top + window.scrollY - 110;
         if (window.scrollY > top) window.scrollTo({ top: top, behavior: "smooth" });
-        var firstField = $("input:not([type=hidden]), select, textarea", steps[current]);
-        if (firstField) firstField.focus({ preventScroll: true });
+        var target = $("h2[tabindex]", steps[current]) || $("input:not([type=hidden]), select, textarea", steps[current]);
+        if (target) target.focus({ preventScroll: true });
       }
     }
     form.addEventListener("click", function (e) {
@@ -272,8 +293,32 @@
         show(current - 1, true);
       }
     });
+    // A one-choice step (tap a level) moves on by itself.
+    form.addEventListener("change", function (e) {
+      var t = e.target;
+      if (t.type === "radio" && t.closest("[data-auto-next]") && steps[current].contains(t) && current < steps.length - 1) {
+        setTimeout(function () { show(current + 1, true); }, calm ? 0 : 200);
+      }
+    });
     show(0, false);
     return { steps: steps, show: show, current: function () { return current; } };
+  }
+
+  // Tap-to-pick forms: "Continue" waits for a pick, and the summary panel fills in as they go.
+  function syncPicks(form) {
+    $$("[data-needs-pick]", form).forEach(function (b) {
+      var n = $$("input:checked", b.closest(".form-step") || form).length, word = b.getAttribute("data-needs-pick");
+      b.disabled = !n;
+      b.firstChild.nodeValue = n > 1 && word ? "Continue with " + n + " " + word + " " : "Continue ";
+    });
+    $$("[data-fact-from]", form).forEach(function (li) {
+      var span = $("span", li), vals = $$('[name="' + li.getAttribute("data-fact-from") + '"]', form)
+        .filter(function (i) { return (i.type !== "checkbox" && i.type !== "radio") || i.checked; })
+        .map(function (i) { return i.value.trim(); }).filter(Boolean);
+      span.textContent = vals.length ? vals.join(", ") : span.getAttribute("data-empty") || "";
+      li.classList.toggle("is-empty", !vals.length);
+      if (li.hasAttribute("data-hide-empty")) li.hidden = !vals.length;
+    });
   }
 
   function prefill(form) {
@@ -320,7 +365,20 @@
     form.setAttribute("novalidate", "");
     var stepper = initStepper(form);
     prefill(form);
+    syncPicks(form);
+    form.addEventListener("change", function () { syncPicks(form); });
     var errorBox = $(".form-error", form);
+
+    // A message box can suggest different text for one topic (e.g. "Teach with us").
+    $$("textarea[data-alt-placeholder]", form).forEach(function (ta) {
+      var base = ta.placeholder;
+      var sync = function () {
+        var c = $('[name="' + ta.getAttribute("data-alt-field") + '"]:checked', form);
+        ta.placeholder = c && c.value === ta.getAttribute("data-alt-when") ? ta.getAttribute("data-alt-placeholder") : base;
+      };
+      form.addEventListener("change", sync);
+      sync();
+    });
 
     // If sending fails, the error box offers the visitor's email app instead (needs a real click to open it).
     $$("[data-mailto-fallback]", form).forEach(function (a) {
@@ -352,6 +410,7 @@
       var trap = $('[name="_gotcha"]', form);
       if (trap && trap.value) return; // bot
 
+      splitReach(form);
       var data = collect(form);
       var who = data["Parent / guardian name"] || data["Name"] || data["Your name"] || "";
       var subject = (form.getAttribute("data-subject") || "Website enquiry") + (who ? " — " + who : "");
@@ -692,7 +751,7 @@
     sync();
   });
   /* ---------- Urgent booking (book-now.html) ----------
-     A 4-step, Calendly-style flow: subjects -> length -> day & time -> contact.
+     A 3-step, Calendly-style flow: subjects -> length, day & time -> contact.
      Days and times are always shown in the instructor's time zone (config
      urgent.timeZone, Eastern Time by default). If the visitor's device is in a
      different zone, their local time is shown underneath for clarity.
@@ -713,7 +772,6 @@
     var GC = U.googleCalendar || {};
     var BUFFER = (+GC.bufferMinutes || 0) * 60000;
     var LOCALE = "en-US";
-    var HINTS = { 30: "A quick question", 45: "Short and focused", 60: "Most popular", 90: "Deep dive", 120: "Exam cram" };
 
     var q = function (s) { return $(s, form); };
     var steps = $$(".wz-step", form), dots = $$(".wz-dots li", form);
@@ -723,7 +781,7 @@
     var soonBox = q("[data-soonest]"), soonList = q("[data-soonest-list]");
     var loadingEl = q("[data-cal-loading]"), statusEl = q("[data-cal-status]"), statusText = q("[data-cal-text]");
 
-    var state = { step: 1, subjects: [], mins: 0, day: null, slot: null, view: null };
+    var state = { step: 1, subjects: [], mins: DURATIONS.indexOf(60) !== -1 ? 60 : DURATIONS[0], day: null, slot: null, view: null };
     var cal = { mode: "hours", busy: [], open: [] }; // mode: hours | loading | live | fallback
 
     /* --- time-zone helpers (no libraries) --- */
@@ -752,7 +810,6 @@
     function dayKey(d) { return d.y + "-" + d.m + "-" + d.d; }
     function toMin(s) { var a = String(s).split(":"); return (+a[0]) * 60 + (+a[1] || 0); }
     function durLabel(m) { return m < 60 ? m + " min" : m === 60 ? "1 hour" : (m / 60) + " hours"; }
-    function durShort(m) { return m < 60 ? m + "<small>min</small>" : (m / 60) + "<small>" + (m === 60 ? "hour" : "hours") + "</small>"; }
     function timeStr(date, tz) { return fmt(tz, { hour: "numeric", minute: "2-digit" }).format(date); }
     function dayStr(date, tz) { return fmt(tz, { weekday: "short", month: "short", day: "numeric" }).format(date); }
     function longDay(date, tz) { return fmt(tz, { weekday: "long", month: "long", day: "numeric" }).format(date); }
@@ -899,14 +956,11 @@
     tzOptions();
     $$("[data-owner-zone]", form).forEach(function (el) { el.textContent = OWNER_LABEL; });
 
-    /* --- step 2: length cards --- */
+    /* --- step 2: length chips (1 hour to start), then calendar + times (in the instructor's zone) --- */
     q("[data-durations]").innerHTML = DURATIONS.map(function (m) {
-      return '<button type="button" class="wz-len' + (m === 60 ? " is-popular" : "") + '" data-mins="' + m + '">' +
-        (m === 60 ? '<span class="wz-badge">Most popular</span>' : "") +
-        '<strong>' + durShort(m) + "</strong><span>" + (HINTS[m] || "") + "</span></button>";
+      return '<button type="button" class="wz-len" data-mins="' + m + '" aria-pressed="' + (m === state.mins) + '" aria-label="' + durLabel(m) + '">' + (m < 60 ? m + " min" : m / 60 + " hr") + "</button>";
     }).join("");
 
-    /* --- step 3: calendar + times (days and times in the instructor's zone) --- */
     function renderPicker() {
       var days = dayList(), byKey = {}, firstOpen = null;
       days.forEach(function (d) {
@@ -980,7 +1034,7 @@
     function update() {
       var subj = state.subjects;
       fact("subject", subj.length ? subj.join(", ") : "Subjects", !subj.length);
-      fact("duration", state.mins ? durLabel(state.mins) : "Length", !state.mins);
+      fact("duration", durLabel(state.mins));
       fact("tz", OWNER_LABEL);
       var student = "", owner = "";
       if (state.slot) {
@@ -999,7 +1053,7 @@
       contBtn.disabled = !subj.length;
       contBtn.firstChild.nodeValue = subj.length > 1 ? "Continue with " + subj.length + " subjects " : "Continue ";
       q('[name="Subject area"]').value = subj.join(", ");
-      q('[name="Duration"]').value = state.mins ? durLabel(state.mins) : "";
+      q('[name="Duration"]').value = durLabel(state.mins);
       q('[name="Requested time (your time zone)"]').value = owner;
       q('[name="Requested time (student\'s time)"]').value = student;
       q('[name="Student time zone"]').value = viewer();
@@ -1016,8 +1070,8 @@
       });
       dots.forEach(function (d, i) { d.classList.toggle("is-done", i < n - 1); d.classList.toggle("is-current", i === n - 1); });
       backBtn.hidden = n === 1;
-      countEl.textContent = "Step " + n + " of 4";
-      if (n === 3) renderPicker();
+      countEl.textContent = "Step " + n + " of " + steps.length;
+      if (n === 2) renderPicker();
       if (focus !== false) {
         var h = q('.wz-step[data-step="' + n + '"] h2');
         if (h) h.focus({ preventScroll: true });
@@ -1042,8 +1096,7 @@
       } else if (t.matches(".wz-len")) {
         state.mins = +t.getAttribute("data-mins");
         $$(".wz-len", form).forEach(function (b) { b.setAttribute("aria-pressed", b === t ? "true" : "false"); });
-        update();
-        setTimeout(function () { go(3); }, reduceMotion ? 0 : 180);
+        renderPicker();
       } else if (t.matches(".cal-day")) {
         state.day = t.getAttribute("data-day");
         state.slot = null;
@@ -1060,9 +1113,9 @@
         var a = state.day.split("-");
         state.view = { y: +a[0], m: +a[1] };
         renderPicker();
-        go(4);
+        go(3);
       } else if (t.matches("[data-next]")) {
-        go(4);
+        go(3);
       } else if (t.matches("[data-back]")) {
         go(Math.max(1, state.step - 1));
       } else if (t.matches("[data-cal-prev], [data-cal-next]")) {
@@ -1074,10 +1127,10 @@
     tzSelect.addEventListener("change", function () { state.tzSel = viewer(); renderPicker(); });
     form.addEventListener("input", function () { update(); });
 
-    // Never send without subjects, a length and a time (e.g. Enter pressed early).
+    // Never send without subjects and a time (e.g. Enter pressed early).
     form.parentNode.addEventListener("submit", function (e) {
       if (e.target !== form) return;
-      var missing = !state.subjects.length ? 1 : !state.mins ? 2 : !state.slot ? 3 : 0;
+      var missing = !state.subjects.length ? 1 : !state.slot ? 2 : 0;
       if (missing) { e.preventDefault(); e.stopPropagation(); go(missing); }
     }, true);
 
@@ -1092,6 +1145,6 @@
     go(1, false);
     loadCalendar();
     // Keep it honest as time passes (times inside the notice window disappear).
-    setInterval(function () { tzOptions(); if (state.step === 3) renderPicker(); }, 60000);
+    setInterval(function () { tzOptions(); if (state.step === 2) renderPicker(); }, 60000);
   });
 })();

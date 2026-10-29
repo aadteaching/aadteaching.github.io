@@ -12,9 +12,9 @@
 | `approach.html` | Story, the 5-step method, "typical tutoring vs AAD", founders, team of 10+, careers |
 | `results.html` | University outcomes, plus 12 reviews with filters (parents, high school, university, research) |
 | `faq.html` | Searchable FAQ |
-| `book.html` | Free consultation booking: a 3-step form, plus an optional Calendly embed |
-| `book-now.html` | Urgent session request: subjects, length, day and time (in Eastern, with the visitor's local time alongside), email or cell |
-| `contact.html` | Phone, email, office hours, live world clocks, contact form |
+| `book.html` | Free consultation: 3 taps (level, subjects, name + email or cell), plus an optional Calendly embed |
+| `book-now.html` | Urgent session request in 3 steps: subjects, then length + day and time (in Eastern, with the visitor's local time alongside), then email or cell |
+| `contact.html` | Three tap cards (call, email, message), office hours, a short message form, live world clocks |
 | `404.html` | Not-found page (GitHub Pages uses it automatically) |
 
 ## Preview locally
@@ -52,19 +52,21 @@ To show a live booking calendar on `book.html`, paste a Calendly or Cal.com link
 
 ## Urgent booking ("Urgently Book Now!")
 
-The yellow button in the header (and in the phone bottom bar) opens `book-now.html`. It's a 4-step, Calendly-style flow with one question per screen.
+The yellow button in the header (and in the phone bottom bar) opens `book-now.html`. It's a 3-step, Calendly-style flow with one question per screen.
 
 1. **What do you need help with?** Big subject tiles. They can pick **one or more** (each picked tile gets a ✓), then tap **Continue**.
-2. **How long?** 30 min, 1 hour, 1.5 hours or 2 hours. A tap moves on.
-3. **Pick a day and time.**
+2. **Pick a time.**
+   - **Length** chips on top: 30 min, 1 hr, 1.5 hr or 2 hr. *1 hr* is picked to start, so most people don't touch it.
    - A month calendar (open days in bold) with a column of times beside it.
    - **Times are always in your time zone** (Eastern Time, Toronto). If the visitor is somewhere else, each time also shows **their local time in grey** underneath (e.g. *9:00 AM* / *9:00 PM* for Hong Kong, with the weekday added when it's a different day there). Visitors in Eastern time just see one time.
    - Their zone is detected from their device. They can change it under **Also show my time**.
    - **Soonest available** gives one-tap picks.
    - Tapping a time shows **Next**.
-4. **Where should we confirm?** An email or a cell number. Name and a note are optional.
+3. **Where should we confirm?** One box that takes an email **or** a cell number. Name and a note are optional.
 
 A summary panel on the left fills in as they go (on phones it's a strip at the top). It shows the time in Eastern plus *"= 9:00 PM – 10:00 PM your time (Hong Kong)"* when their zone differs. Back works at every step. Links like `book-now.html?subject=Physics` or `?subject=Physics,Mathematics` pre-tick those subjects.
+
+The free consultation (`book.html`) works the same way: tap a level (it moves on by itself), tap subjects, then name + email or cell. Links like `book.html?subject=Physics` or `?program=…` fill those in.
 
 **Nothing is booked automatically.** The request is emailed to you and you confirm.
 - **Email subject:** *URGENT session request — Physics, Mathematics — Thu, Oct 22, 9:00 AM – 10:00 AM EDT* (always your time).
