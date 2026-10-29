@@ -362,24 +362,41 @@
         "?subject=" + encodeURIComponent(subject) +
         "&body=" + encodeURIComponent(lines.join("\n"));
 
+      // Services to try in order: Web3Forms (if a key is set), then formEndpoint as the backup.
+      var targets = [];
+      if (C.web3formsKey) {
+        var w3 = Object.assign({ access_key: C.web3formsKey, subject: subject, from_name: "AAD website" }, data);
+        if (data.email) w3.replyto = data.email;
+        targets.push({ url: "https://api.web3forms.com/submit", payload: w3 });
+      }
       if (C.formEndpoint) {
+        var fs = Object.assign({ _subject: subject }, data);
+        if (data.email) fs._replyto = data.email;
+        if (/formsubmit\.co/.test(C.formEndpoint)) fs._template = "table";
+        targets.push({ url: C.formEndpoint, payload: fs });
+      }
+
+      if (targets.length) {
         var btn = $('[type="submit"]', form);
         var label = btn ? btn.innerHTML : "";
         if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
-        var payload = Object.assign({ _subject: subject }, data);
-        if (data.email) payload._replyto = data.email;
-        if (/formsubmit\.co/.test(C.formEndpoint)) payload._template = "table";
-        fetch(C.formEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify(payload)
-        }).then(function (res) {
-          // Formspree answers {ok: false} on errors; FormSubmit answers {success: "false"} (e.g. before activation).
-          var body = typeof res.json === "function" ? res.json().catch(function () { return {}; }) : Promise.resolve({});
-          return body.then(function (j) {
-            if (!res.ok || (j && (j.ok === false || String(j.success) === "false"))) throw new Error("Request failed");
-            showSuccess(form, false);
+        var post = function (t) {
+          return fetch(t.url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify(t.payload)
+          }).then(function (res) {
+            // Web3Forms and FormSubmit answer {success: false} on errors (FormSubmit e.g. before activation); Formspree {ok: false}.
+            var body = typeof res.json === "function" ? res.json().catch(function () { return {}; }) : Promise.resolve({});
+            return body.then(function (j) {
+              if (!res.ok || (j && (j.ok === false || String(j.success) === "false"))) throw new Error("Request failed");
+            });
           });
+        };
+        var chain = post(targets[0]);
+        targets.slice(1).forEach(function (t) { chain = chain.catch(function () { return post(t); }); });
+        chain.then(function () {
+          showSuccess(form, false);
         }).catch(function () {
           $$("[data-mailto-fallback]", form).forEach(function (a) { a.href = mailHref; });
           if (errorBox) errorBox.classList.add("is-visible");

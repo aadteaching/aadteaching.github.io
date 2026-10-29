@@ -24,12 +24,14 @@ window.SITE_CONFIG = {
     ["Sunday", "Sessions by appointment"]
   ],
 
-  // FORMS — where the three forms (consultation, urgent booking, contact) are sent.
-  // FormSubmit (free, no account) emails each submission to you. It needs a one-time
-  // "Activate Form" click: see EMAIL-FORMS-SETUP.md. A Formspree link
-  // ("https://formspree.io/f/abcdwxyz") also works here.
-  // Leave it "" to have forms open the visitor's email app instead.
-  formEndpoint: "https://formsubmit.co/ajax/aadteaching@gmail.com",
+  // FORMS — the three forms (consultation, urgent booking, contact) are emailed to you.
+  // See EMAIL-FORMS-SETUP.md.
+  // 1. Main: Web3Forms. Paste your form's access key (free sign-up at web3forms.com).
+  web3formsKey: "cbc92521-c091-4436-8a47-a434d973254f",
+  // 2. Backup, used only if the main one fails: FormSubmit (your private code from its
+  //    activation email) or a Formspree link ("https://formspree.io/f/abcdwxyz").
+  // If both are "" or both fail, visitors get a pre-filled "send from your email app" link.
+  formEndpoint: "https://formsubmit.co/ajax/d2509a362eae0e62024949ccc756d8cd",
 
   // BOOKING — optional. Paste your Calendly (or Cal.com) link to show a live
   // calendar on the booking page, e.g. "https://calendly.com/your-name/free-consultation".

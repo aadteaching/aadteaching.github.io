@@ -37,14 +37,16 @@ Edit **`assets/js/config.js`**. It holds the phone (currently **(647) 821-8290**
 
 ## Make the forms deliver to your inbox
 
-GitHub Pages can't receive form submissions on its own, so the three forms (free consultation, urgent booking, contact) send through **FormSubmit**, a free service that emails each submission to **aadteaching@gmail.com**. It's set in `formEndpoint` in `config.js`.
+GitHub Pages can't receive form submissions on its own, so the three forms (free consultation, urgent booking, contact) email each submission to **aadteaching@gmail.com** through free services set in `config.js`:
 
-**It needs a one-time activation: see [EMAIL-FORMS-SETUP.md](EMAIL-FORMS-SETUP.md).**
+1. **Web3Forms** (`web3formsKey`) is the main one. Paste your form's access key (free sign-up at web3forms.com).
+2. **FormSubmit** (`formEndpoint`) is the backup, tried only if the first fails. A Formspree link also works here.
+
+**Setup steps: [EMAIL-FORMS-SETUP.md](EMAIL-FORMS-SETUP.md).**
 
 - Hitting **Reply** on a submission email answers the visitor directly.
-- If sending ever fails, the visitor sees *"Send it from your email app instead"* (pre-filled) plus your phone number, so no request is lost.
-- To use **Formspree** instead, paste its endpoint (e.g. `https://formspree.io/f/abcdwxyz`) into `formEndpoint`.
-- Set `formEndpoint` to `""` to skip form services entirely; the forms then open the visitor's email app.
+- If every service fails, the visitor sees *"Send it from your email app instead"* (pre-filled) plus your phone number, so no request is lost.
+- With both settings `""`, the forms open the visitor's email app instead.
 
 To show a live booking calendar on `book.html`, paste a Calendly or Cal.com link into `calendlyUrl`.
 
